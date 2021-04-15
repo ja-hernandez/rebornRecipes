@@ -22,6 +22,9 @@ namespace rebornRecipes.Models
         public ApplicationUser CreatedBy { get; set; }
 
         [Required]
+        public IsForked IsForked { get; set; }
+
+        [Required]
         public List<Ingredient> Ingredients { get; set; }
 
 

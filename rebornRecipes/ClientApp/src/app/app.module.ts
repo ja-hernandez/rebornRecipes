@@ -38,6 +38,10 @@ import { ForkRecipeComponent } from './components/fork-recipe/fork-recipe.compon
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthorizeGuard] },
+      { path: 'add-recipe', component: AddRecipeComponent, canActivate: [AuthorizeGuard] },
+      { path: 'fork-recipe', component: ForkRecipeComponent, canActivate: [AuthorizeGuard] },
+      { path: 'recipe-list', component: RecipesListComponent },
+      { path: 'recipe-details', component: RecipeDetailsComponent }
     ])
   ],
   providers: [
