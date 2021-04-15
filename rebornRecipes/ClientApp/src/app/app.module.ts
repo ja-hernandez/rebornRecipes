@@ -12,6 +12,10 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { ApiAuthorizationModule } from 'src/api-authorization/api-authorization.module';
 import { AuthorizeGuard } from 'src/api-authorization/authorize.guard';
 import { AuthorizeInterceptor } from 'src/api-authorization/authorize.interceptor';
+import { AddRecipeComponent } from './components/add-recipe/add-recipe.component';
+import { RecipeDetailsComponent } from './components/recipe-details/recipe-details.component';
+import { RecipesListComponent } from './components/recipes-list/recipes-list.component';
+import { ForkRecipeComponent } from './components/fork-recipe/fork-recipe.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +23,11 @@ import { AuthorizeInterceptor } from 'src/api-authorization/authorize.intercepto
     NavMenuComponent,
     HomeComponent,
     CounterComponent,
-    FetchDataComponent
+    FetchDataComponent,
+    AddRecipeComponent,
+    RecipeDetailsComponent,
+    RecipesListComponent,
+    ForkRecipeComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
