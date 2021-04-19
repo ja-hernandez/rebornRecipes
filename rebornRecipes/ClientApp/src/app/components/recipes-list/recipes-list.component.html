@@ -1,1 +1,15 @@
-<p>recipes-list works!</p>
+<div class="list row">
+  <div class="col-md-6">
+    <h4>All Recipes</h4>
+        <div *ngFor="let recipe of recipes" class="card mb-3" style="max-width: 540px;">
+            <div class="row no-gutters">
+              <div class="col-md-4">
+                <img src="{{ recipe.image }}" alt="Picture of {{ recipe.name }}">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                  <h5 class="card-title">{{ recipe.name }}</h5>
+                </div>
+              </div>
+            </div>
+          </div>

@@ -6,6 +6,10 @@ export class Recipe {
   rating?: number;
   image?: string;
   createdBy?: string;
-  ingredients?: Ingredients[];
+  isForked?: boolean;
+  parentId?: any;
+  instructions?: string;
+  ingredients?: string;
+
 }
 
