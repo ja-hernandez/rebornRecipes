@@ -12,23 +12,23 @@ export class RecipeService {
 
   constructor(private http: HttpClient) { }
 
-  getAll():Observable<Recipe>[] {
+  getAll(): Observable<any> {
     return this.http.get(baseUrl);
   }
 
-  get(id: any):Observable<Recipe> {
+  get(id: any): Observable<any> {
     return this.http.get(`${baseUrl}/${id}`);
   }
 
-  create(data) {
+  create(data: any): Observable<any> {
     return this.http.post(baseUrl, data);
   }
 
-  update(id, data) {
+  update(id: any, data: any): Observable<any> {
     return this.http.put(`${baseUrl}/${id}`, data);
   }
 
-  delete(id) {
+  delete(id: any): Observable<any> {
     return this.http.delete(`${baseUrl}/${id}`);
   }
 

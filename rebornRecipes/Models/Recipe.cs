@@ -17,15 +17,18 @@ namespace rebornRecipes.Models
         public Uri Image { get; set; }
 
         [Required]
-        public string[] Instructions { get; set; }
+        public string Instructions { get; set; }
 
         public ApplicationUser CreatedBy { get; set; }
 
         [Required]
-        public IsForked IsForked { get; set; }
+        public bool IsForked { get; set; } = false;
+
+        public int ParentId { get; set; }
+
 
         [Required]
-        public List<Ingredient> Ingredients { get; set; }
+        public string Ingredients { get; set; }
 
 
         public Recipe()
