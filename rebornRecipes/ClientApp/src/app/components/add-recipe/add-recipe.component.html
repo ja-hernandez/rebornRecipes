@@ -24,7 +24,7 @@
                     <label for="ingredients">Ingredients</label>
                     <textarea class="form-control" id="ingredients" required [(ngModel)]="recipe.ingredients"
                         name="ingredients" #ingredients="ngModel"
-                        placeholder="Put each ingredient on its own line"></textarea>
+                        placeholder="Put each ingredient on its own line" rows="10"></textarea>
                     <div *ngIf="ingredients.invalid && (ingredients.dirty || ingredients.touched)"
                         class="alert alert-danger">
                         <div *ngIf="ingredients.errors.required">
@@ -37,7 +37,7 @@
                     <label for="instructions">Instructions</label>
                     <textarea class="form-control" id="instructions" required [(ngModel)]="recipe.instructions"
                         name="instructions" #instructions="ngModel"
-                        placeholder="Put each step on its own line"></textarea>
+                        placeholder="Put each step on its own line" rows="10"></textarea>
 
                     <div *ngIf="instructions.invalid && (instructions.dirty || instructions.touched)"
                         class="alert alert-danger">
