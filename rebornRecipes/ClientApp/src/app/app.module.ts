@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+import { NgbRatingModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
@@ -16,6 +17,8 @@ import { AddRecipeComponent } from './components/add-recipe/add-recipe.component
 import { RecipeDetailsComponent } from './components/recipe-details/recipe-details.component';
 import { RecipesListComponent } from './components/recipes-list/recipes-list.component';
 import { ForkRecipeComponent } from './components/fork-recipe/fork-recipe.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 @NgModule({
   declarations: [
@@ -34,6 +37,7 @@ import { ForkRecipeComponent } from './components/fork-recipe/fork-recipe.compon
     HttpClientModule,
     FormsModule,
     ApiAuthorizationModule,
+    NgbRatingModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
@@ -42,7 +46,8 @@ import { ForkRecipeComponent } from './components/fork-recipe/fork-recipe.compon
       { path: 'fork-recipe', component: ForkRecipeComponent, canActivate: [AuthorizeGuard] },
       { path: 'recipe-list', component: RecipesListComponent },
       { path: 'recipe-details', component: RecipeDetailsComponent }
-    ])
+    ]),
+    BrowserAnimationsModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true }
