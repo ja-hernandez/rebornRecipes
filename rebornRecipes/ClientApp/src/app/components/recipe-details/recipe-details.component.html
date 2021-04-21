@@ -1,1 +1,15 @@
-<p>recipe-details works!</p>
+<div class="col-md">
+<h3>{{currentRecipe.name}}</h3>
+<img class="img-fluid" src="{{ currentRecipe.image}}" alt="Picture of {{currentRecipe.name}}"/>
+<ngb-rating [rate]=currentRecipe.rating [max]=5 [readonly]='true'></ngb-rating>
+<ul>
+    <li *ngFor="let ingredient of parsedIngredients">
+        {{ ingredient }}
+    </li>
+</ul>
+<ol>
+   <li *ngFor="let step of parsedInstructions">
+    {{ step }}
+   </li>
+</ol>
+</div>

@@ -45,7 +45,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
       { path: 'add-recipe', component: AddRecipeComponent, canActivate: [AuthorizeGuard] },
       { path: 'fork-recipe', component: ForkRecipeComponent, canActivate: [AuthorizeGuard] },
       { path: 'recipe-list', component: RecipesListComponent },
-      { path: 'recipe-details', component: RecipeDetailsComponent }
+      { path: 'recipe/:id', component: RecipeDetailsComponent }
     ]),
     BrowserAnimationsModule
   ],

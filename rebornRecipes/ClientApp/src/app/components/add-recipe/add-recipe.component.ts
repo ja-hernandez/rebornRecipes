@@ -23,7 +23,10 @@ export class AddRecipeComponent implements OnInit {
   };
   submitted: boolean = false;
 
-  constructor(private recipeService: RecipeService, private authorizeService: AuthorizeService) { }
+  constructor(
+    private recipeService: RecipeService,
+    private authorizeService: AuthorizeService
+    ) { }
 
   ngOnInit(): void {
     this.userName = this.authorizeService.getUser().pipe(map(u => u && u.name));
