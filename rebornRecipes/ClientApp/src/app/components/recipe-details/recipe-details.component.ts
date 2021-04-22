@@ -12,6 +12,7 @@ export class RecipeDetailsComponent implements OnInit {
   message = '';
   parsedIngredients: string[];
   parsedInstructions: string[];
+  editMode: boolean = false;
 
 
   constructor(
@@ -25,7 +26,7 @@ export class RecipeDetailsComponent implements OnInit {
     this.getRecipe(this.route.snapshot.paramMap.get('id'))
   }
 
-  getRecipe(id) {
+  getRecipe(id: string) {
     this.recipeService.get(id)
       .subscribe(
         recipe => {
@@ -38,5 +39,26 @@ export class RecipeDetailsComponent implements OnInit {
           console.log(error);
         }
       )
+  }
+
+  updateRecipe(): void {
+    this.recipeService.update(this.currentRecipe.id, this.currentRecipe)
+      .subscribe(
+        response => {
+          console.log(response);
+          this.message = 'Recipe updated!';
+        },
+        error => {
+          console.log(error);
+        });
+  }
+
+  onEditClick() {
+    this.editMode = !this.editMode;
+  }
+  
+  reloadOnCancel() {
+    this.onEditClick();
+    location.reload();
   }
 }
