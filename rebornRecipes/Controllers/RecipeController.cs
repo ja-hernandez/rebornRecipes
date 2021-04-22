@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using rebornRecipes.Data;
 using rebornRecipes.Models;
@@ -15,10 +16,12 @@ namespace rebornRecipes.Controllers
     public class RecipeController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _usermanager;
 
-        public RecipeController(ApplicationDbContext context)
+        public RecipeController(ApplicationDbContext context, UserManager<ApplicationUser> usermanager)
         {
             _context = context;
+            _usermanager = usermanager;
         }
 
         // GET: api/Recipe
@@ -103,6 +106,7 @@ namespace rebornRecipes.Controllers
         [HttpPost]
         public async Task<ActionResult<Recipe>> PostRecipe(Recipe recipe)
         {
+            recipe.CreatedBy = (ApplicationUser)User.Identity;
             _context.Recipes.Add(recipe);
             await _context.SaveChangesAsync();
 

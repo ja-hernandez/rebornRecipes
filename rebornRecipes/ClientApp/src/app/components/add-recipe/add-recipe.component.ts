@@ -4,6 +4,7 @@ import { map, tap } from 'rxjs/operators';
 import { Recipe } from 'src/app/models/recipe.model';
 import { RecipeService } from 'src/app/services/recipe.service';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { ActivatedRoute, Router } from "@angular/router";
 
 
 @Component({
@@ -12,7 +13,6 @@ import { AuthorizeService } from 'src/api-authorization/authorize.service';
   styleUrls: ['./add-recipe.component.css']
 })
 export class AddRecipeComponent implements OnInit {
-  public userName: Observable<string>;
 
   recipe: Recipe = {
     name: '',
@@ -21,16 +21,33 @@ export class AddRecipeComponent implements OnInit {
     instructions: '',
     ingredients: ''
   };
+  id!: string;
+  isAddMode!: boolean;
+  currentRecipe: any;
+  message = '';
+  parsedIngredients: string[];
+  parsedInstructions: string[];
+
   submitted: boolean = false;
 
   constructor(
     private recipeService: RecipeService,
-    private authorizeService: AuthorizeService
+    private route: ActivatedRoute,
+    private router: Router
     ) { }
 
-  ngOnInit(): void {
-    this.userName = this.authorizeService.getUser().pipe(map(u => u && u.name));
-  }
+  ngOnInit(): void { 
+    this.checkIfForking();
+   }
+
+   checkIfForking(): void {
+    this.id = this.route.snapshot.paramMap.get('id');
+    this.isAddMode = !this.id;
+    if (this.id) {
+      this.getRecipe(this.id);
+      this.currentRecipe.isForked = true;
+    }
+   }
 
   saveRecipe(): void {
 
@@ -40,7 +57,6 @@ export class AddRecipeComponent implements OnInit {
       isForked: this.recipe.isForked,
       instructions: this.recipe.instructions,
       ingredients: this.recipe.ingredients,
-      createdBy: this.userName,
     };
 
     this.recipeService.create(data)
@@ -52,6 +68,21 @@ export class AddRecipeComponent implements OnInit {
         error => {
           console.log(error);
         });
+  }
+
+  getRecipe(id: string) {
+    this.recipeService.get(id)
+      .subscribe(
+        recipe => {
+          this.currentRecipe = recipe;
+          console.log(recipe);
+          this.parsedIngredients = recipe.ingredients.split("\n");
+          this.parsedInstructions =  recipe.instructions.split(". ")
+        },
+        error => {
+          console.log(error);
+        }
+      )
   }
 
   newRecipe() {
