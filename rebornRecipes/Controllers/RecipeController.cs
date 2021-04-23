@@ -106,7 +106,7 @@ namespace rebornRecipes.Controllers
         [HttpPost]
         public async Task<ActionResult<Recipe>> PostRecipe(Recipe recipe)
         {
-            recipe.CreatedBy = (ApplicationUser)User.Identity;
+
             _context.Recipes.Add(recipe);
             await _context.SaveChangesAsync();
 
