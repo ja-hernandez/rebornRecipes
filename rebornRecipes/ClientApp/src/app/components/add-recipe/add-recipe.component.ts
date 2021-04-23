@@ -27,17 +27,25 @@ export class AddRecipeComponent implements OnInit {
   message = '';
   parsedIngredients: string[];
   parsedInstructions: string[];
+  createdBy:string;
+
+  public isAuthenticated: Observable<boolean>;
+  public userName: Observable<string>;
+
 
   submitted: boolean = false;
 
   constructor(
     private recipeService: RecipeService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private authorizeService: AuthorizeService,
     ) { }
 
   ngOnInit(): void { 
     this.checkIfForking();
+    this.isAuthenticated = this.authorizeService.isAuthenticated();
+    this.userName = this.authorizeService.getUser().pipe(map(u => u && u.name));
    }
 
    checkIfForking(): void {
@@ -49,6 +57,9 @@ export class AddRecipeComponent implements OnInit {
    }
 
   saveRecipe(): void {
+    this.userName.subscribe(
+      user => this.createdBy = user
+    );
 
     const data = {
       name: this.recipe.name,
@@ -56,6 +67,8 @@ export class AddRecipeComponent implements OnInit {
       isForked: this.recipe.isForked,
       instructions: this.recipe.instructions,
       ingredients: this.recipe.ingredients,
+      parentId: Number(this.recipe.parentId),
+      createdBy: this.createdBy,
     };
 
     this.recipeService.create(data)

@@ -53,6 +53,10 @@ export class RecipeDetailsComponent implements OnInit {
         });
   }
 
+  deleteRecipe(): void {
+    //TODO
+  }
+
   onEditClick() {
     this.editMode = !this.editMode;
   }
