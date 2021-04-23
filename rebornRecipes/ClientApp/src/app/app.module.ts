@@ -39,10 +39,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ApiAuthorizationModule,
     NgbRatingModule,
     RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
+      { path: '', component: RecipesListComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthorizeGuard] },
-      { path: 'add-recipe', component: AddRecipeComponent, canActivate: [AuthorizeGuard] },
+      { path: 'add-recipe', component: AddRecipeComponent, canActivate: [AuthorizeGuard], pathMatch: 'full'},
+      { path: 'add-recipe/:id', component: AddRecipeComponent, canActivate: [AuthorizeGuard] },
       { path: 'fork-recipe', component: ForkRecipeComponent, canActivate: [AuthorizeGuard] },
       { path: 'recipe-list', component: RecipesListComponent },
       { path: 'recipe/:id', component: RecipeDetailsComponent }
