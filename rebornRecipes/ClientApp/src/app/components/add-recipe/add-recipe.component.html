@@ -1,8 +1,9 @@
 <div class="submit-form">
-    <div [hidden]="submitted">
+    <div [hidden]="submitted" >
         {{diagnostic}}
 
-        <h1> Add new recipe: </h1>
+        <h1 *ngIf="isAddMode"> Add new recipe: </h1>
+        <h1 *ngIf="!isAddMode"> Fork your version of this recipe: </h1>
         <form (ngsubmit)="onSubmit()" #addrecipe="ngForm">
             <div class="form-group">
                 <label for="name">Name</label>
@@ -46,6 +47,8 @@
                         </div>
                     </div>
                 </div>
+
+
 
                 <button type="submit" class="btn btn-success" (click)=saveRecipe(); [disabled]="!addrecipe.form.valid">Submit</button>
                 <button type="button" class="btn btn-default" (click)="newRecipe(); addrecipe.reset()">Reset/Add New

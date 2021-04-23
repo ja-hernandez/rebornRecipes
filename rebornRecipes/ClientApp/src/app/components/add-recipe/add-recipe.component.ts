@@ -45,7 +45,6 @@ export class AddRecipeComponent implements OnInit {
     this.isAddMode = !this.id;
     if (this.id) {
       this.getRecipe(this.id);
-      this.currentRecipe.isForked = true;
     }
    }
 
@@ -74,14 +73,16 @@ export class AddRecipeComponent implements OnInit {
     this.recipeService.get(id)
       .subscribe(
         recipe => {
-          this.currentRecipe = recipe;
+          this.recipe = recipe;
           console.log(recipe);
-          this.parsedIngredients = recipe.ingredients.split("\n");
-          this.parsedInstructions =  recipe.instructions.split(". ")
-        },
+          this.recipe.isForked = true;
+          this.recipe.parentId = id;
+          this.recipe.id = null;
+          },
         error => {
           console.log(error);
         }
+
       )
   }
 
