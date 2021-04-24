@@ -2,7 +2,20 @@
 <h3>{{currentRecipe.name}}</h3>
 <img class="img-fluid" src="{{ currentRecipe.image}}" alt="Picture of {{currentRecipe.name}}"/>
 <br>
-<ngb-rating [rate]=currentRecipe.rating [max]=5 [readonly]='true'></ngb-rating>
+
+
+  <h4>Rating:</h4>
+  <ngb-rating
+  [(rate)]=selectedRating
+  [starTemplate]="t"
+  [readonly]="readOnly"
+  [max]="5"
+  (rateChange)="updateRating(selectedRating)"
+>
+  </ngb-rating>
+<hr>
+
+  <h5>Avg. Rating {{ currentRecipe.rating.toFixed(2) }}  {{ currentRecipe.numOfRatings }}Ratings</h5>
 <br>
 <br>
 <h4>Ingredients</h4>
@@ -66,11 +79,14 @@
     </form>
 </div>
 
+<div *ngIf="currentRecipe.isForked">
+    <h4>Recipe forked from <a href="/recipe/{{ currentRecipe.parentId }}">here</a></h4>
+</div>
 <div *ngIf = "!editMode" class="btn-group" role="group" aria-label="User actions">
     <button type="button" class="btn btn-secondary" (click)="onEditClick()">Edit Recipe</button>
-    <a class="badge badge-warning" href="/add-recipe/{{ currentRecipe.id }}">Fork Recipe</a>
+    <a type="button" class="badge badge-warning" href="/add-recipe/{{ currentRecipe.id }}">Fork Recipe</a>
 </div>
 <button *ngIf = "editMode" type="button" class="btn btn-secondary" (click)="updateRecipe();location.reload()" >Submit edits</button>
 <button *ngIf = "editMode" type="button" class="btn btn-secondary" (click)="reloadOnCancel()">Cancel edit mode</button>
-<button *ngIf = "editMode" type="button" class="btn btn-danger float-right" >Delete Recipe</button>
+<button *ngIf = "editMode" type="button" class="btn btn-danger float-right" (click)="deleteRecipe()" >Delete Recipe</button>
 

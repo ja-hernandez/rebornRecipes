@@ -28,6 +28,7 @@ export class AddRecipeComponent implements OnInit {
   parsedIngredients: string[];
   parsedInstructions: string[];
   createdBy:string;
+  
 
   public isAuthenticated: Observable<boolean>;
   public userName: Observable<string>;

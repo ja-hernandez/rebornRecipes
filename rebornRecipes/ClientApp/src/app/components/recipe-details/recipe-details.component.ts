@@ -13,6 +13,8 @@ export class RecipeDetailsComponent implements OnInit {
   parsedIngredients: string[];
   parsedInstructions: string[];
   editMode: boolean = false;
+  ratingReadonly:boolean = false;
+  selectedRating: number = 0;
 
 
   constructor(
@@ -33,12 +35,52 @@ export class RecipeDetailsComponent implements OnInit {
           this.currentRecipe = recipe;
           console.log(recipe);
           this.parsedIngredients = recipe.ingredients.split("\n");
-          this.parsedInstructions =  recipe.instructions.split(". ")
+          this.parsedInstructions =  recipe.instructions.split("\n")
         },
         error => {
           console.log(error);
         }
       )
+  }
+
+  updateRating(rating):void {
+    if (this.currentRecipe.numOfRatings > 0) {
+      let _previousTotal = this.currentRecipe.rating * this.currentRecipe.numOfRatings;
+      _previousTotal += rating;
+    this.currentRecipe.numOfRatings += 1;
+    this.currentRecipe.rating = _previousTotal/this.currentRecipe.numOfRatings;
+
+    this.recipeService.update(this.currentRecipe.id, this.currentRecipe)
+      .subscribe(
+        response=> {
+          console.log(response);
+          this.message = 'Avg Rating updated!'
+          console.log(this.message)
+        },
+        error => {
+          console.log(error);
+          }
+        )
+        }
+
+      else if (this.currentRecipe.numOfRatings == 0) {
+        this.currentRecipe.rating += rating;
+        this.currentRecipe.numOfRatings += 1;
+
+
+        this.recipeService.update(this.currentRecipe.id, this.currentRecipe)
+      .subscribe(
+        response=> {
+          console.log(response);
+          this.message = 'First Rating updated!'
+          console.log(this.message)
+        },
+        error => {
+          console.log(error);
+          }
+        )
+        }
+    this.ratingReadonly = true;      
   }
 
   updateRecipe(): void {
@@ -54,7 +96,16 @@ export class RecipeDetailsComponent implements OnInit {
   }
 
   deleteRecipe(): void {
-    //TODO
+    this.recipeService.delete(this.currentRecipe.id)
+      .subscribe(
+        response => {
+          console.log(response);
+          this.router.navigate(['/recipe-list'])
+        },
+        error => {
+          console.log(error);
+        }
+      )
   }
 
   onEditClick() {

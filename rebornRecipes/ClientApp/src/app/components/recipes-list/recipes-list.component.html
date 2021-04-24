@@ -4,7 +4,7 @@
            <img class="card-img-top" src="{{ recipe.image }}" alt="Picture of {{ recipe.name }}">
                 <div class="card-body">
                   <h5 class="card-title">{{ recipe.name }}</h5>
-                  <ngb-rating [rate]=recipe.rating [max]=5 [readonly]='true'></ngb-rating>
+                  <ngb-rating [rate]=recipe.rating [max]=5 [readonly]='true'></ngb-rating> <h5>Avg Rating: {{ recipe.rating.toFixed(2)}}</h5>
                   <hr>
                   <a href="recipe/{{recipe.id}}" class="btn btn-primary">View Recipe</a>
                 </div>
