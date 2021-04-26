@@ -18,6 +18,7 @@
   <h5>Avg. Rating {{ currentRecipe.rating.toFixed(2) }}  {{ currentRecipe.numOfRatings }}Ratings</h5>
 <br>
 <br>
+<h4 *ngIf="currentRecipe.createdBy">Created By: {{ currentRecipe.createdBy }}</h4>
 <h4>Ingredients</h4>
 <ul>
     <li *ngFor="let ingredient of parsedIngredients">
@@ -84,7 +85,7 @@
 </div>
 <div *ngIf = "!editMode" class="btn-group" role="group" aria-label="User actions">
     <button type="button" class="btn btn-secondary" (click)="onEditClick()">Edit Recipe</button>
-    <a type="button" class="badge badge-warning" href="/add-recipe/{{ currentRecipe.id }}">Fork Recipe</a>
+    <a type="button" class="btn btn-secondary" href="/add-recipe/{{ currentRecipe.id }}">Fork Recipe</a>
 </div>
 <button *ngIf = "editMode" type="button" class="btn btn-secondary" (click)="updateRecipe();location.reload()" >Submit edits</button>
 <button *ngIf = "editMode" type="button" class="btn btn-secondary" (click)="reloadOnCancel()">Cancel edit mode</button>
