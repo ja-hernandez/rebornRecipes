@@ -71,7 +71,7 @@ export class ImportExternalRecipeComponent implements OnInit {
       image: this.randomRecipe.image,
       isForked: this.randomRecipe.isForked,
       instructions: this.randomRecipe.instructions,
-      ingredients: this.randomRecipe.ingredients,
+      ingredients: this.randomRecipe.ingredients  ,
       createdBy: this.createdBy,
     };
 
@@ -104,7 +104,7 @@ export class ImportExternalRecipeComponent implements OnInit {
   parsedIngredientstoString(arr: Object[]):string {
     let str: string = '';
     arr.forEach(element => {
-      str += element["originalString"] + "\n";
+      str += element["originalName"] + "\n";
     });
     return str; 
 }}

@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { NgbRatingModule } from "@ng-bootstrap/ng-bootstrap";
@@ -20,16 +20,6 @@ import { ImportExternalRecipeComponent } from './import-external-recipe/import-e
 
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    NavMenuComponent,
-    HomeComponent,
-    AddRecipeComponent,
-    RecipeDetailsComponent,
-    RecipesListComponent,
-    ForkRecipeComponent,
-    ImportExternalRecipeComponent
-  ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
@@ -46,6 +36,16 @@ import { ImportExternalRecipeComponent } from './import-external-recipe/import-e
       { path: 'add-random', component: ImportExternalRecipeComponent, canActivate: [AuthorizeGuard]}
     ]),
     BrowserAnimationsModule
+  ],
+  declarations: [
+    AppComponent,
+    NavMenuComponent,
+    HomeComponent,
+    AddRecipeComponent,
+    RecipeDetailsComponent,
+    RecipesListComponent,
+    ForkRecipeComponent,
+    ImportExternalRecipeComponent
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true }

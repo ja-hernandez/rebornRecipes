@@ -14,16 +14,10 @@ import { ActivatedRoute, Router } from "@angular/router";
 })
 export class AddRecipeComponent implements OnInit {
 
-  recipe: Recipe = {
-    name: '',
-    image: '',
-    isForked: false,
-    instructions: '',
-    ingredients: ''
-  };
+  recipeForm = new Recipe(); 
+
   id!: string;
   isAddMode!: boolean;
-  currentRecipe: any;
   message = '';
   parsedIngredients: string[];
   parsedInstructions: string[];
@@ -43,7 +37,8 @@ export class AddRecipeComponent implements OnInit {
     private authorizeService: AuthorizeService,
     ) { }
 
-  ngOnInit(): void { 
+  ngOnInit(): void {
+    this.recipeForm; 
     this.checkIfForking();
     this.isAuthenticated = this.authorizeService.isAuthenticated();
     this.userName = this.authorizeService.getUser().pipe(map(u => u && u.name));
@@ -53,56 +48,64 @@ export class AddRecipeComponent implements OnInit {
     this.id = this.route.snapshot.paramMap.get('id');
     this.isAddMode = !this.id;
     if (this.id) {
-      this.getRecipe(this.id);
+      this.getRecipe(parseInt(this.id));
     }
    }
 
   saveRecipe(): void {
     this.userName.subscribe(
-      user => this.createdBy = user
+      user => {this.createdBy = user;
+        console.log(`Grabbed the current user: ${this.createdBy}`)
+      }
     );
+    
+    // const data = {
+    //   name: this.recipe.name,
+    //   image: this.recipe.image,
+    //   isForked: this.recipe.isForked,
+    //   instructions: this.recipe.instructions,
+    //   ingredients: this.recipe.ingredients,
+    //   parentId: Number(this.recipe.parentId),
+    //   createdBy: this.createdBy,
+    // };
 
-    const data = {
-      name: this.recipe.name,
-      image: this.recipe.image,
-      isForked: this.recipe.isForked,
-      instructions: this.recipe.instructions,
-      ingredients: this.recipe.ingredients,
-      parentId: Number(this.recipe.parentId),
-      createdBy: this.createdBy,
-    };
+    console.log(this.isAddMode);
+    if(this.isAddMode == false) {
+      this.recipeForm.id = undefined;
+      this.recipeForm.createdBy = this.createdBy;
+      this.recipeForm.parentId = parseInt(this.id);
+    }
 
-    this.recipeService.create(data)
+    this.recipeService.create(this.recipeForm)
       .subscribe(
         response => {
           console.log(response);
           this.submitted = true;
+          this.router.navigate(['recipe',response.id])
         },
         error => {
           console.log(error);
         });
   }
 
-  getRecipe(id: string) {
+  getRecipe(id: number) {
     this.recipeService.get(id)
       .subscribe(
         recipe => {
-          this.recipe = recipe;
+          this.recipeForm = recipe;
           console.log(recipe);
-          this.recipe.isForked = true;
-          this.recipe.parentId = id;
-          this.recipe.id = null;
+          this.recipeForm.isForked = true;
+          this.recipeForm.parentId = id;
           },
         error => {
           console.log(error);
-        }
-
+        },
       )
   }
 
   newRecipe() {
     this.submitted = false;
-    this.recipe = {
+    this.recipeForm = {
       name: '',
       image: '',
       isForked: false,
@@ -112,5 +115,5 @@ export class AddRecipeComponent implements OnInit {
   }
 
   //TODO: REMOVE AFTER TESTING
-  get diagnostic() { return JSON.stringify(this.recipe); }
+  get diagnostic() { return JSON.stringify(this.recipeForm); }
 }
