@@ -114,6 +114,10 @@ export class AddRecipeComponent implements OnInit {
     };
   }
 
+  onSubmit() {
+    this.submitted = true;
+  }
+
   //TODO: REMOVE AFTER TESTING
   get diagnostic() { return JSON.stringify(this.recipeForm); }
 }
