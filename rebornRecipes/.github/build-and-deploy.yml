@@ -1,0 +1,32 @@
+name: Build and Deploy to linode
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build step
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '3.1.x'
+      - name: var sub in angular src
+        uses: microsoft/variable-substitution@v1
+        with:
+          files: 'rebornRecipes/ClientApp/src/environments/*.json'
+        env:
+          spoonacularApiKey: ${{ secrets.SPOONACULAR_API_KEY }}
+      - name: Restore dependencies
+        run: dotnet restore
+      - name: Create Production Build
+        run: dotnet publish -c Release --no-restore
+      - name: var sub in .net published
+        uses: microsoft/variable-substitution@v1
+        with:
+          files: 'rebornRecipes/published/appsettings*.json'
+        env:
+          ApplicationDbContext: ${{ secrets.APP_DB_CONTEXT }}
+        

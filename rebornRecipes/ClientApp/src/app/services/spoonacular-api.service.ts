@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
+import { environment } from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class SpoonacularApiService {
-  API_KEY:string = '66b549d4981d482cacc9bfcd14f5e684' ;
+  API_KEY:string = environment.spoonacularApiKey ;
   constructor(private httpClient: HttpClient) { }
 
   /**

@@ -28,7 +28,8 @@ namespace rebornRecipes
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseNpgsql(Configuration.GetConnectionString("ApplicationDbContext")));
+            options.UseNpgsql(Configuration.GetConnectionString("ApplicationDbContext"), b =>
+            b.MigrationsAssembly("rebornRecipes")));
 
             services.AddDefaultIdentity<ApplicationUser>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
