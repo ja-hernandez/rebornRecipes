@@ -16,7 +16,7 @@ jobs:
       - name: var sub in angular src
         uses: microsoft/variable-substitution@v1
         with:
-          files: 'rebornRecipes/ClientApp/src/environments/*.json'
+          files: './rebornRecipes/ClientApp/src/environments'
         env:
           spoonacularApiKey: ${{ secrets.SPOONACULAR_API_KEY }}
       - name: Restore dependencies
