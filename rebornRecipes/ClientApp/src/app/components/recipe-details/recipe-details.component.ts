@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RecipeService } from "src/app/services/recipe.service";
 import { ActivatedRoute, Router } from "@angular/router";
+import { Recipe } from 'src/app/models/recipe.model';
 
 @Component({
   selector: 'app-recipe-details',
@@ -8,7 +9,7 @@ import { ActivatedRoute, Router } from "@angular/router";
   styleUrls: ['./recipe-details.component.css']
 })
 export class RecipeDetailsComponent implements OnInit {
-  currentRecipe: any;
+  currentRecipe: Recipe;
   message = '';
   parsedIngredients: string[];
   parsedInstructions: string[];
@@ -25,6 +26,8 @@ export class RecipeDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.message ='';
+    this.currentRecipe = new Recipe();
+    console.table(this.currentRecipe);
     this.getRecipe(this.route.snapshot.paramMap.get('id'))
   }
 
@@ -43,7 +46,7 @@ export class RecipeDetailsComponent implements OnInit {
       )
   }
 
-  updateRating(rating):void {
+  updateRating(rating: number):void {
     if (this.currentRecipe.numOfRatings > 0) {
       let _previousTotal = this.currentRecipe.rating * this.currentRecipe.numOfRatings;
       _previousTotal += rating;

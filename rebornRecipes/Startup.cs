@@ -1,20 +1,17 @@
 using System;
-using System.Reflection;
 using System.IO;
-using Microsoft.OpenApi.Models;
+using System.Reflection;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
-using rebornRecipes.Data;
-using rebornRecipes.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
+using rebornRecipes.Data;
+using rebornRecipes.Models;
+using Microsoft.AspNetCore.HttpOverrides;
 
 namespace rebornRecipes
 {
@@ -30,10 +27,9 @@ namespace rebornRecipes
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var connectionString = "host=localhost;port=5432;database=recipedb;username=recipeadmin;password=recipeadmin;Include Error Detail=true;";
-
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseNpgsql(connectionString));
+            options.UseNpgsql(Configuration.GetConnectionString("ApplicationDbContext"), b =>
+            b.MigrationsAssembly("rebornRecipes")));
 
             services.AddDefaultIdentity<ApplicationUser>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
@@ -79,6 +75,11 @@ namespace rebornRecipes
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            });
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -98,11 +99,11 @@ namespace rebornRecipes
                 app.UseSpaStaticFiles();
             }
 
-            app.UseRouting();
+            
 
             app.UseAuthentication();
             app.UseIdentityServer();
-            app.UseAuthorization();
+            
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>
@@ -110,7 +111,8 @@ namespace rebornRecipes
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Reborn Recipes V1");
             });
 
-
+            app.UseRouting();
+            app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
@@ -128,10 +130,9 @@ namespace rebornRecipes
 
                 if (env.IsDevelopment())
                 {
-                    spa.UseAngularCliServer(npmScript: "start");
+                    spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
                 }
             });
-
 
         }
     }

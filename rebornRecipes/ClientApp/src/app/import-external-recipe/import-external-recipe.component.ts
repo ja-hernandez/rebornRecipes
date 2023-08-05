@@ -71,7 +71,7 @@ export class ImportExternalRecipeComponent implements OnInit {
       image: this.randomRecipe.image,
       isForked: this.randomRecipe.isForked,
       instructions: this.randomRecipe.instructions,
-      ingredients: this.randomRecipe.ingredients,
+      ingredients: this.randomRecipe.ingredients  ,
       createdBy: this.createdBy,
     };
 
@@ -98,13 +98,17 @@ export class ImportExternalRecipeComponent implements OnInit {
     };
   }
 
+  onSubmit() {
+    this.submitted = true;
+  }
+
   //TODO: REMOVE AFTER TESTING
   get diagnostic() { return JSON.stringify(this.randomRecipe); }
 
   parsedIngredientstoString(arr: Object[]):string {
     let str: string = '';
     arr.forEach(element => {
-      str += element["originalString"] + "\n";
+      str += element["originalName"] + "\n";
     });
     return str; 
 }}

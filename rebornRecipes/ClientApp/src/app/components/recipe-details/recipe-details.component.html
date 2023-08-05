@@ -15,7 +15,7 @@
   </ngb-rating>
 <hr>
 
-  <h5>Avg. Rating {{ currentRecipe.rating.toFixed(2) }}  {{ currentRecipe.numOfRatings }}Ratings</h5>
+  <h5 *ngIf="currentRecipe.rating">Avg. Rating {{ currentRecipe.rating.toFixed(2) }}  {{ currentRecipe.numOfRatings }} Ratings</h5>
 <br>
 <br>
 <h4 *ngIf="currentRecipe.createdBy">Created By: {{ currentRecipe.createdBy }}</h4>
