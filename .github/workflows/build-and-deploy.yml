@@ -15,12 +15,16 @@ jobs:
       - uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '3.1.x'
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
       - name: double checking pwd
         run: ls ${{ github.workspace }}
       - name: var sub in angular src
         run: |
          sed -i 's/[secret]/$SPOONACULAR_API_KEY/g' './rebornRecipes/ClientApp/src/environments/environment.ts'
          sed -i 's/[secret]/$SPOONACULAR_API_KEY/g' './rebornRecipes/ClientApp/src/environments/environment.prod.ts'
+         cat ./rebornRecipes/ClientApp/src/environments/environment.ts
       - name: Restore dependencies
         run: dotnet restore
       - name: Create Production Build
