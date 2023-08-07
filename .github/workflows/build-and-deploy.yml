@@ -22,17 +22,17 @@ jobs:
         run: ls ${{ github.workspace }}
       - name: var sub in angular src
         run: |
-         sed -i 's/[secret]/$SPOONACULAR_API_KEY/g' './rebornRecipes/ClientApp/src/environments/environment.ts'
-         sed -i 's/[secret]/$SPOONACULAR_API_KEY/g' './rebornRecipes/ClientApp/src/environments/environment.prod.ts'
+         sed -i "s/\[secret\]/'$SPOONACULAR_API_KEY/g" './rebornRecipes/ClientApp/src/environments/environment.ts'
+         sed -i "s/[secret]/$SPOONACULAR_API_KEY/g" './rebornRecipes/ClientApp/src/environments/environment.prod.ts'
          cat ./rebornRecipes/ClientApp/src/environments/environment.ts
-      - name: Restore dependencies
-        run: dotnet restore
-      - name: Create Production Build
-        run: dotnet publish -c Release --no-restore
-      - name: var sub in .net published
-        uses: microsoft/variable-substitution@v1
-        with:
-          files: './rebornRecipes/published/appsettings*.json'
-        env:
-          ApplicationDbContext: ${{ secrets.APP_DB_CONTEXT }}
+    #  - name: Restore dependencies
+     #   run: dotnet restore
+      #- name: Create Production Build
+       # run: dotnet publish -c Release --no-restore
+      #-  name: var sub in .net published
+      #  uses: microsoft/variable-substitution@v1
+       # with:
+        #  files: './rebornRecipes/published/appsettings*.json'
+       # env:
+        #  ApplicationDbContext: ${{ secrets.APP_DB_CONTEXT }}
         
