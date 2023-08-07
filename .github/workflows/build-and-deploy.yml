@@ -13,12 +13,10 @@ jobs:
       - uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '3.1.x'
-      - name: Doublecheck paths
-        run: echo "$PATH"
       - name: var sub in angular src
         uses: microsoft/variable-substitution@v1
         with:
-          files: './rebornRecipes/ClientApp/src/environments'
+          files: './ClientApp/src/environments'
         env:
           spoonacularApiKey: ${{ secrets.SPOONACULAR_API_KEY }}
       - name: Restore dependencies
