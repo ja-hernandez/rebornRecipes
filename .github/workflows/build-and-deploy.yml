@@ -7,6 +7,8 @@ jobs:
   build:
     name: Build step
     runs-on: ubuntu-latest
+    env:
+      SPOONACULAR_API_KEY: ${{ secrets.SPOONACULAR_API_KEY }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -16,11 +18,8 @@ jobs:
       - name: double checking pwd
         run: ls ${{ github.workspace }}
       - name: var sub in angular src
-        uses: microsoft/variable-substitution@v1
-        with:
-          files: './rebornRecipes/ClientApp/src/environments/*.ts'
-        env:
-          spoonacularApiKey: ${{ secrets.SPOONACULAR_API_KEY }}
+        run: sed -i 's/[secret]/$SPOONACULAR_API_KEY/g' './rebornRecipes/ClientApp/src/environments/environment.ts'
+         sed -i 's/[secret]/$SPOONACULAR_API_KEY/g' './rebornRecipes/ClientApp/src/environments/environment.prod.ts'
       - name: Restore dependencies
         run: dotnet restore
       - name: Create Production Build
@@ -28,7 +27,7 @@ jobs:
       - name: var sub in .net published
         uses: microsoft/variable-substitution@v1
         with:
-          files: 'rebornRecipes/published/appsettings*.json'
+          files: './rebornRecipes/published/appsettings*.json'
         env:
           ApplicationDbContext: ${{ secrets.APP_DB_CONTEXT }}
         
