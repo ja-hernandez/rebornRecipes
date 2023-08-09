@@ -32,7 +32,7 @@ jobs:
       - name: var sub in .net publish
         uses: microsoft/variable-substitution@v1
         with:
-          files: 'rebornRecipes/bin/Release/netcoreapp3.1/publish/appsettings*.json'
+          files: './rebornRecipes/bin/Release/netcoreapp3.1/publish/appsettings*.json'
         env:
-          ApplicationDbContext: ${{ secrets.APP_DB_CONTEXT }}
+          ConnectionStrings.ApplicationDbContext: ${{ secrets.APP_DB_CONTEXT }}
         
