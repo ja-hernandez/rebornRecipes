@@ -29,10 +29,10 @@ jobs:
         run: dotnet restore
       - name: Create Production Build
         run: dotnet publish -c Release --no-restore
-      - name: var sub in .net published
+      - name: var sub in .net publish
         uses: microsoft/variable-substitution@v1
         with:
-          files: './rebornRecipes/published/appsettings*.json'
+          files: './rebornRecipes/publish/appsettings*.json'
         env:
           ApplicationDbContext: ${{ secrets.APP_DB_CONTEXT }}
         
