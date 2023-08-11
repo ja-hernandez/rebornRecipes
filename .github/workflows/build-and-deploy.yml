@@ -35,5 +35,5 @@ jobs:
           files: './rebornRecipes/bin/Release/netcoreapp3.1/publish/appsettings*.json'
         env:
           ConnectionStrings.ApplicationDbContext: ${{ secrets.APP_DB_CONTEXT }}
-          IdentityServer.Key.Password: ${{ secrets.CERT_EXP_PW}}
+          IdentityServer.Key.Password: ${{ secrets.CERT_EXP_PW }}
         
