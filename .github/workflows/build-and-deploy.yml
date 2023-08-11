@@ -7,26 +7,33 @@ jobs:
   build:
     name: Build step
     runs-on: ubuntu-latest
+    env:
+      SPOONACULAR_API_KEY: ${{ secrets.SPOONACULAR_API_KEY }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
       - uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '3.1.x'
-      - name: var sub in angular src
-        uses: microsoft/variable-substitution@v1
+      - uses: actions/setup-node@v3
         with:
-          files: 'rebornRecipes/ClientApp/src/environments/*.json'
-        env:
-          spoonacularApiKey: ${{ secrets.SPOONACULAR_API_KEY }}
+          node-version: 16
+      - name: double checking pwd
+        run: ls ${{ github.workspace }}
+      - name: var sub in angular src
+        run: |
+         sed -i "s/\[secret\]/$SPOONACULAR_API_KEY/g" './rebornRecipes/ClientApp/src/environments/environment.ts'
+         sed -i "s/\[secret\]/$SPOONACULAR_API_KEY/g" './rebornRecipes/ClientApp/src/environments/environment.prod.ts'
+         cat ./rebornRecipes/ClientApp/src/environments/environment.ts
       - name: Restore dependencies
         run: dotnet restore
       - name: Create Production Build
         run: dotnet publish -c Release --no-restore
-      - name: var sub in .net published
+      - name: var sub in .net publish
         uses: microsoft/variable-substitution@v1
         with:
-          files: 'rebornRecipes/published/appsettings*.json'
+          files: './rebornRecipes/bin/Release/netcoreapp3.1/publish/appsettings*.json'
         env:
-          ApplicationDbContext: ${{ secrets.APP_DB_CONTEXT }}
+          ConnectionStrings.ApplicationDbContext: ${{ secrets.APP_DB_CONTEXT }}
+          IdentityServer.Key.Password: ${{ secrets.CERT_EXP_PW }}
         
