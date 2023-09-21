@@ -36,12 +36,16 @@ jobs:
         env:
           ConnectionStrings.ApplicationDbContext: ${{ secrets.APP_DB_CONTEXT }}
           IdentityServer.Key.Password: ${{ secrets.CERT_EXP_PW }}
-      - name: Push publish folder to Linode
-        run: |
-          echo "$ssh_key" > ~/ssh_key
-          chmod 600 ~/ssh_key
-          rsync -e "ssh -i ~/ssh_key -o StrictHostKeyChecking=no" -avzO ./rebornRecipes/bin/Release/netcoreapp3.1/publish/ "$user"@"$host":/var/rebornRecipes/
-        env: 
-          ssh_key: ${{ secrets.CI_CERT }}
-          host: ${{ secrets.LINODE_DOMAIN }}
-          user: ${{ secrets.CD_USER }}
+      - name: Add EF migration
+        run: dotnet ef migrations add Initial
+      - name: Generate efbundle
+        run: dotnet ef migrations bundle
+      #- name: Push publish folder to Linode
+       # run: |
+        #  echo "$ssh_key" > ~/ssh_key
+         # chmod 600 ~/ssh_key
+          #rsync -e "ssh -i ~/ssh_key -o StrictHostKeyChecking=no" -avzO ./rebornRecipes/bin/Release/netcoreapp3.1/publish/ "$user"@"$host":/var/rebornRecipes/
+        #env: 
+         # ssh_key: ${{ secrets.CI_CERT }}
+          #host: ${{ secrets.LINODE_DOMAIN }}
+          #user: ${{ secrets.CD_USER }}
