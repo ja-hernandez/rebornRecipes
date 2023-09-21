@@ -44,7 +44,7 @@ jobs:
         run: |
           cd ./rebornRecipes
           dotnet dotnet-ef migrations add Initial
-          dotnet dotnet-ef migrations bundle
+          dotnet dotnet-ef migrations bundle --self-contained -r linux-x64
       #- name: Push publish folder to Linode
        # run: |
         #  echo "$ssh_key" > ~/ssh_key
