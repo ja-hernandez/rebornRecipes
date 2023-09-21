@@ -38,13 +38,13 @@ jobs:
           IdentityServer.Key.Password: ${{ secrets.CERT_EXP_PW }}
       - name: Install EF
         run: |
-          dotnet tool install --global dotnet-ef
-          dotnet tool restore
+          dotnet new tool-manifest
+          dotnet tool install dotnet-ef
       - name: Add EF migration and generate efbundle
         run: |
           cd ./rebornRecipes
-          dotnet ef migrations add Initial
-          dotnet ef migrations bundle
+          dotnet-ef migrations add Initial
+          dotnet-ef migrations bundle
       #- name: Push publish folder to Linode
        # run: |
         #  echo "$ssh_key" > ~/ssh_key
