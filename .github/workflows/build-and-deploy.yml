@@ -40,10 +40,11 @@ jobs:
         run: |
           dotnet tool install --global dotnet-ef
           dotnet tool restore
-      - name: Add EF migration
-        run: dotnet ef migrations add Initial
-      - name: Generate efbundle
-        run: dotnet ef migrations bundle
+      - name: Add EF migration and generate efbundle
+        run: |
+          cd ./rebornRecipes
+          dotnet ef migrations add Initial
+          dotnet ef migrations bundle
       #- name: Push publish folder to Linode
        # run: |
         #  echo "$ssh_key" > ~/ssh_key
