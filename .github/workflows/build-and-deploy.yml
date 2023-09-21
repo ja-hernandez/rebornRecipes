@@ -40,10 +40,12 @@ jobs:
         run: |
           dotnet new tool-manifest
           dotnet tool install dotnet-ef
-      - name: Add EF migration and generate efbundle
+      - name: Add EF migration and generate script
         run: |
           cd ./rebornRecipes
           dotnet dotnet-ef migrations script -i -v -o "${{ github.workspace }}/dbscripts/Migrations.sql"
+        env:
+          ASPNETCORE_ENVIRONMENT: Production
       #- name: Push publish folder to Linode
        # run: |
         #  echo "$ssh_key" > ~/ssh_key
