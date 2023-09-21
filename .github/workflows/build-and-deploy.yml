@@ -36,6 +36,10 @@ jobs:
         env:
           ConnectionStrings.ApplicationDbContext: ${{ secrets.APP_DB_CONTEXT }}
           IdentityServer.Key.Password: ${{ secrets.CERT_EXP_PW }}
+      - name: Install EF
+        run: |
+          dotnet tool install --global dotnet-ef
+          dotnet tool restore
       - name: Add EF migration
         run: dotnet ef migrations add Initial
       - name: Generate efbundle
