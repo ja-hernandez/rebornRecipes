@@ -51,6 +51,7 @@ jobs:
           echo "$ssh_key" > ~/ssh_key
           chmod 600 ~/ssh_key
           rsync -e "ssh -i ~/ssh_key -o StrictHostKeyChecking=no" -avzO ./rebornRecipes/bin/Release/netcoreapp3.1/publish/ ./rebornRecipes/dbscripts "$user"@"$host":/var/rebornRecipes/
+          rsync -e "ssh -i ~/ssh_key -o StrictHostKeyChecking=no" -avzO ./rebornRecipes/dbscripts "$user"@"$host":/var/rebornRecipes/
           env: 
             ssh_key: ${{ secrets.CI_CERT }}
             host: ${{ secrets.LINODE_DOMAIN }}
